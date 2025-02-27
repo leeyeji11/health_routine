@@ -12,7 +12,7 @@ class AppTextStyle {
   static TextStyle subSectionTitle = const TextStyle(
     fontFamily: 'Pretendard',
     fontWeight: FontWeight.bold,
-    fontSize: 13,
+    fontSize: 15,
     color: AppColors.black, // 부제목 (카드의 제목)
   );
   static TextStyle smallTitle = const TextStyle(
@@ -34,6 +34,19 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     fontSize: 15,
     color: AppColors.black, // 더보기 버튼
+  );
+
+  static TextStyle searchHint = const TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+    color: AppColors.darkGray, // 검색창 힌트 텍스트
+  );
+
+  static TextStyle button = const TextStyle(
+    fontFamily: 'Pretendard',
+    fontWeight: FontWeight.bold,
+    color: AppColors.white, // 검색창 힌트 텍스트
   );
 
   //   static TextStyle smallTitleDark = smallTitle.copyWith(color: Colors.white);

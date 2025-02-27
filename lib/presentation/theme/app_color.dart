@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//HEX 형식
 class AppColors {
   // 메인 컬러
   static const Color primaryColor = Color(0xFF54D6CE); // 대표 색상 (청록 계열)
