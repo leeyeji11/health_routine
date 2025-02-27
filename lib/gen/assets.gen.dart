@@ -166,53 +166,78 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// Directory path: assets/images/calender_list
-  $AssetsImagesCalenderListGen get calenderList =>
-      const $AssetsImagesCalenderListGen();
+  /// Directory path: assets/images/equipment
+  $AssetsImagesEquipmentGen get equipment => const $AssetsImagesEquipmentGen();
 
-  /// File path: assets/images/cycle.svg
-  SvgGenImage get cycle => const SvgGenImage('assets/images/cycle.svg');
+  /// Directory path: assets/images/splash
+  $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
 
-  /// Directory path: assets/images/instrument_manual
-  $AssetsImagesInstrumentManualGen get instrumentManual =>
-      const $AssetsImagesInstrumentManualGen();
-
-  /// List of all assets
-  List<SvgGenImage> get values => [cycle];
+  /// Directory path: assets/images/workout
+  $AssetsImagesWorkoutGen get workout => const $AssetsImagesWorkoutGen();
 }
 
-class $AssetsImagesCalenderListGen {
-  const $AssetsImagesCalenderListGen();
+class $AssetsImagesEquipmentGen {
+  const $AssetsImagesEquipmentGen();
 
-  /// File path: assets/images/calender_list/lat_pull_down.svg
-  SvgGenImage get latPullDown =>
-      const SvgGenImage('assets/images/calender_list/lat_pull_down.svg');
+  /// File path: assets/images/equipment/cycle.png
+  AssetGenImage get cycle =>
+      const AssetGenImage('assets/images/equipment/cycle.png');
 
-  /// File path: assets/images/calender_list/running.svg
-  SvgGenImage get running =>
-      const SvgGenImage('assets/images/calender_list/running.svg');
-
-  /// File path: assets/images/calender_list/squat.svg
-  SvgGenImage get squat =>
-      const SvgGenImage('assets/images/calender_list/squat.svg');
-
-  /// File path: assets/images/calender_list/stretching.svg
-  SvgGenImage get stretching =>
-      const SvgGenImage('assets/images/calender_list/stretching.svg');
+  /// File path: assets/images/equipment/trade_mill.png
+  AssetGenImage get tradeMill =>
+      const AssetGenImage('assets/images/equipment/trade_mill.png');
 
   /// List of all assets
-  List<SvgGenImage> get values => [latPullDown, running, squat, stretching];
+  List<AssetGenImage> get values => [cycle, tradeMill];
 }
 
-class $AssetsImagesInstrumentManualGen {
-  const $AssetsImagesInstrumentManualGen();
+class $AssetsImagesSplashGen {
+  const $AssetsImagesSplashGen();
 
-  /// File path: assets/images/instrument_manual/ trade_mill.svg
-  SvgGenImage get aTradeMill =>
-      const SvgGenImage('assets/images/instrument_manual/ trade_mill.svg');
+  /// File path: assets/images/splash/hr_splash.svg
+  SvgGenImage get aHrSplash =>
+      const SvgGenImage('assets/images/splash/hr_splash.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [aTradeMill];
+  List<SvgGenImage> get values => [aHrSplash];
+}
+
+class $AssetsImagesWorkoutGen {
+  const $AssetsImagesWorkoutGen();
+
+  /// File path: assets/images/workout/lat_pull_down.png
+  AssetGenImage get latPullDown =>
+      const AssetGenImage('assets/images/workout/lat_pull_down.png');
+
+  /// File path: assets/images/workout/running1.png
+  AssetGenImage get running1 =>
+      const AssetGenImage('assets/images/workout/running1.png');
+
+  /// File path: assets/images/workout/running2.png
+  AssetGenImage get running2 =>
+      const AssetGenImage('assets/images/workout/running2.png');
+
+  /// File path: assets/images/workout/running3.png
+  AssetGenImage get running3 =>
+      const AssetGenImage('assets/images/workout/running3.png');
+
+  /// File path: assets/images/workout/squat.png
+  AssetGenImage get squat =>
+      const AssetGenImage('assets/images/workout/squat.png');
+
+  /// File path: assets/images/workout/stretching.png
+  AssetGenImage get stretching =>
+      const AssetGenImage('assets/images/workout/stretching.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [
+    latPullDown,
+    running1,
+    running2,
+    running3,
+    squat,
+    stretching,
+  ];
 }
 
 class Assets {
@@ -221,6 +246,76 @@ class Assets {
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+}
+
+class AssetGenImage {
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
+
+  final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
+
+  Image image({
+    Key? key,
+    AssetBundle? bundle,
+    ImageFrameBuilder? frameBuilder,
+    ImageErrorWidgetBuilder? errorBuilder,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    double? scale,
+    double? width,
+    double? height,
+    Color? color,
+    Animation<double>? opacity,
+    BlendMode? colorBlendMode,
+    BoxFit? fit,
+    AlignmentGeometry alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    Rect? centerSlice,
+    bool matchTextDirection = false,
+    bool gaplessPlayback = true,
+    bool isAntiAlias = false,
+    String? package,
+    FilterQuality filterQuality = FilterQuality.medium,
+    int? cacheWidth,
+    int? cacheHeight,
+  }) {
+    return Image.asset(
+      _assetName,
+      key: key,
+      bundle: bundle,
+      frameBuilder: frameBuilder,
+      errorBuilder: errorBuilder,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      scale: scale,
+      width: width,
+      height: height,
+      color: color,
+      opacity: opacity,
+      colorBlendMode: colorBlendMode,
+      fit: fit,
+      alignment: alignment,
+      repeat: repeat,
+      centerSlice: centerSlice,
+      matchTextDirection: matchTextDirection,
+      gaplessPlayback: gaplessPlayback,
+      isAntiAlias: isAntiAlias,
+      package: package,
+      filterQuality: filterQuality,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
+    );
+  }
+
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
+  }
+
+  String get path => _assetName;
+
+  String get keyName => _assetName;
 }
 
 class SvgGenImage {

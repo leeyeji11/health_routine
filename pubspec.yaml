@@ -74,11 +74,9 @@ flutter:
     - assets/fonts/
     - assets/icons/
     - assets/images/
-    - assets/images/calender_list/lat_pull_down.svg
-    - assets/images/calender_list/running.svg
-    - assets/images/calender_list/squat.svg
-    - assets/images/calender_list/stretching.svg
-    - assets/images/instrument_manual/
+    - assets/images/equipment/
+    - assets/images/splash/
+    - assets/images/workout/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
