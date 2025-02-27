@@ -48,6 +48,11 @@ class AppTextStyle {
     fontWeight: FontWeight.bold,
     color: AppColors.white, // 검색창 힌트 텍스트
   );
+  static TextStyle splashText = const TextStyle(
+    fontFamily: 'Urbanist',
+    fontSize: 25,
+    color: AppColors.white, // 스플레쉬
+  );
 
   //   static TextStyle smallTitleDark = smallTitle.copyWith(color: Colors.white);
   // static TextStyle smallTitleLight = smallTitle.copyWith(color: Colors.black);

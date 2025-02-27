@@ -194,12 +194,12 @@ class $AssetsImagesEquipmentGen {
 class $AssetsImagesSplashGen {
   const $AssetsImagesSplashGen();
 
-  /// File path: assets/images/splash/hr_splash.svg
-  SvgGenImage get aHrSplash =>
-      const SvgGenImage('assets/images/splash/hr_splash.svg');
+  /// File path: assets/images/splash/hr_splash.png
+  AssetGenImage get hrSplash =>
+      const AssetGenImage('assets/images/splash/hr_splash.png');
 
   /// List of all assets
-  List<SvgGenImage> get values => [aHrSplash];
+  List<AssetGenImage> get values => [hrSplash];
 }
 
 class $AssetsImagesWorkoutGen {
