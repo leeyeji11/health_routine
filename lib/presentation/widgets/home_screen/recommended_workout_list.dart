@@ -9,12 +9,14 @@ class RecommendedWorkoutList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: 3,
       itemBuilder: (context, index) {
         return RecommendedWorkoutCard(
           title: workouts[index]["title"]!,
           description: workouts[index]["description"]!,
+          time: workouts[index]["time"]!.toString(),
           image: workouts[index]["image"],
         );
       },

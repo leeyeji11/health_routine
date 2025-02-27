@@ -11,11 +11,11 @@ class HR extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      color: Colors.white,
       title: 'Health Routine',
       debugShowCheckedModeBanner: false,
       // routerConfig: router,
       home: MainScreen(),
-      
     );
   }
 }

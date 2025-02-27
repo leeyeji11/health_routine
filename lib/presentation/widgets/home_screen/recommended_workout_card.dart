@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:health_routine/gen/assets.gen.dart';
+import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 
 class RecommendedWorkoutCard extends StatefulWidget {
   final String title;
   final String description;
+  final String time;
   final String image;
 
   const RecommendedWorkoutCard({
     super.key,
     required this.title,
     required this.description,
+    required this.time,
     required this.image,
   });
 
@@ -24,6 +27,7 @@ class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: AppColors.backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -55,7 +59,7 @@ class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
                           widget.title,
                           style: AppTextStyle.subSectionTitle,
                           overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
+                          maxLines: 2,
                         ),
                       ),
                     ],
@@ -66,15 +70,27 @@ class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
                     style: AppTextStyle.workoutDescription,
                     overflow: TextOverflow.ellipsis,
                   ),
+                  Text(
+                    " ${widget.time}분",
+                    style: AppTextStyle.workoutDescription,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ],
               ),
             ),
           ),
-          Image.asset(
-            widget.image,
-            width: MediaQuery.of(context).size.width * 0.3,
-            height: 90,
-            fit: BoxFit.fill,
+          Flexible(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: 100,
+                maxHeight: 150,
+              ),
+              child: Image.asset(
+                widget.image,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ],
       ),

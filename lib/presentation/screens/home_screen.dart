@@ -51,10 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _workoutBanner(),
+              SizedBox(height: 15),
               Text("추천 운동 루틴", style: AppTextStyle.subSectionTitle),
+              SizedBox(height: 15),
               // 🔹 탭 버튼 위젯
               RecommendedWorkoutTabBar(
                 tabs: tabs,
@@ -67,10 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 16),
               // 🔹 운동 루틴 리스트 위젯
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.5,
+              Flexible(
                 child: RecommendedWorkoutList(workouts: getFilteredWorkouts()),
               ),
+
               // 🔹 더 보기 버튼
               TextButton(
                 onPressed: () {},
@@ -93,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
               _buildSearchBar(),
               SizedBox(height: 10),
               SizedBox(
-                height: 300,
+                height: MediaQuery.of(context).size.height,
                 child: equipmentSearchBlock(),
               ),
             ],
