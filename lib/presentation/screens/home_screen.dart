@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_routine/data/routine_mock_data.dart';
+import 'package:health_routine/data/rec_routine_mock.dart';
 import 'package:health_routine/domain/entities/routine.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         selectedDifficulty = Difficulty.easy;
     }
-    return RoutineMockData.workoutData
+    return RecRoutineMock.recRoutineMock
         .where((routine) => routine.difficulty == selectedDifficulty)
         .map((routine) => routine.toMap())
         .toList();

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:health_routine/gen/assets.gen.dart';
-import 'package:health_routine/presentation/screens/calender_screen.dart';
+import 'package:health_routine/presentation/screens/calendar_screen.dart';
 import 'package:health_routine/presentation/screens/home_screen.dart';
 import 'package:health_routine/presentation/screens/instrument_scan_screen.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
@@ -24,13 +24,14 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
     InstrumentScanScreen(),
-    CalenderScreen()
+    CalendarScreen()
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
         leading: IconButton(
           onPressed: () {},
           icon: Assets.icons.profile.svg(
