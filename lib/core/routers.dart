@@ -62,7 +62,10 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/equipment-info',
-      builder: (context, state) => EquipmentInfoScreen(),
+      builder: (context, state) {
+        final imagePath = state.extra as String?; // `extra`로 전달된 값 가져오기
+        return EquipmentInfoScreen(imagePath: imagePath);
+      },
     ),
     GoRoute(
       path: '/bookmark',

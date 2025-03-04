@@ -1,10 +1,12 @@
+import 'dart:io'; // 추가해야 File을 사용할 수 있음
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 
 class EquipmentInfoScreen extends StatelessWidget {
-  const EquipmentInfoScreen({super.key});
+  final imagePath;
+  const EquipmentInfoScreen({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,10 @@ class EquipmentInfoScreen extends StatelessWidget {
                 height: 360,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/equipment/trade_mill.png'),
+                    image: imagePath != null
+                        ? FileImage(File(imagePath)) // 촬영한 이미지 적용
+                        : AssetImage('assets/images/equipment/trade_mill.png')
+                            as ImageProvider, // 기본 이미지
                     fit: BoxFit.cover,
                   ),
                 ),
