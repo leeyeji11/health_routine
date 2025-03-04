@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:health_routine/presentation/widgets/home_screen/recommended_workout_card.dart';
+import 'package:health_routine/presentation/widgets/home_screen/rec_workout_card.dart';
 
 class RecommendedWorkoutList extends StatelessWidget {
   final List<Map<String, dynamic>> workouts;
@@ -13,7 +13,7 @@ class RecommendedWorkoutList extends StatelessWidget {
       physics: NeverScrollableScrollPhysics(),
       itemCount: 3,
       itemBuilder: (context, index) {
-        return RecommendedWorkoutCard(
+        return RecWorkoutCard(
           title: workouts[index]["title"]!,
           description: workouts[index]["description"]!,
           time: workouts[index]["time"]!.toString(),

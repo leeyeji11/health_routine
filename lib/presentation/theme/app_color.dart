@@ -21,6 +21,7 @@ class AppColors {
   static const Color lightGray = Color(0xFFE0E0E0); // 밝은 회색
   static const Color middleGray = Color(0xFFE5E5EA); // 중간 회색 (연한 보라빛이 섞인 회색)
   static const Color darkGray = Color(0xFF8E8E93); // 어두운 회색 (회색빛이 도는 어두운 은색)
+  static const Color darkCharcoal = Color(0xFF625B71); // 검은색과 가까운 회색
 
   // 기본 색상
   static const Color black = Color(0xFF222221); // 기본 검정

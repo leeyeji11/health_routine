@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
@@ -60,6 +61,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             children: [
               Row(
                 children: [
+                  //📌 Dynamic Calendar block
                   Text(
                     "${_selectedDay.month}월 ${_selectedDay.day}일",
                     style: AppTextStyle.moreButton,
@@ -68,11 +70,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     icon: Icon(Icons.add),
                     onPressed: () {
                       // Todo: 플래너 추가 스크린으로 이동
+                      context.push('/plan-form-edit');
                     },
                   ),
                 ],
               ),
               _buildCalendar(),
+              //📌 calendar plan list block
               Flexible(
                 fit: FlexFit.loose,
                 child: RefreshIndicator(
@@ -169,10 +173,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 day.day.toString(),
                 style: TextStyle(
                   color: isSelected
-                      ? Colors.white // 선택된 날짜는 흰색
+                      ? AppColors.white // 선택된 날짜는 흰색
                       : isToday
                           ? AppColors.primaryColor // 오늘 날짜(선택 안 됨) - 지정 색상
-                          : Colors.black, // 기본 날짜 - 검정
+                          : AppColors.black, // 기본 날짜 - 검정
                   fontWeight: isSelected || isToday
                       ? FontWeight.bold
                       : FontWeight.normal,
@@ -279,10 +283,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 Text(
                   routine["title"] ?? "운동 없음",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                  style: AppTextStyle.calendarCardTitle,
                 ),
                 SizedBox(height: 4),
                 Row(
@@ -290,7 +291,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     Icon(Icons.access_time, color: Colors.white, size: 16),
                     SizedBox(width: 4),
                     Text("${routine["sets"] ?? 1} 세트",
-                        style: TextStyle(fontSize: 14, color: Colors.white)),
+                        style: AppTextStyle.calendarCardSets),
                     SizedBox(width: 8),
                     // ✅ 태그 리스트를 Row로 나열 (Wrap 제거)
                     Row(
@@ -344,10 +345,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
-      child: Text(
-        tag,
-        style: TextStyle(fontSize: 14, color: Colors.black),
-      ),
+      child: Text(tag, style: AppTextStyle.calendarCardTag),
     );
   }
 }

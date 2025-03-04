@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 
-class RecommendedWorkoutTabBar extends StatelessWidget {
+class RecWorkoutTabBlock extends StatelessWidget {
   final List<String> tabs;
   final int selectedTab;
   final ValueChanged<int> onTabSelected;
 
-  const RecommendedWorkoutTabBar({
+  const RecWorkoutTabBlock({
     super.key,
     required this.tabs,
     required this.selectedTab,
@@ -40,8 +40,8 @@ class RecommendedWorkoutTabBar extends StatelessWidget {
                     side: BorderSide(color: Colors.transparent),
                   ),
             labelStyle: selectedTab == index
-                ? AppTextStyle.smallTitle.copyWith(color: AppColors.white)
-                : AppTextStyle.smallTitle,
+                ? AppTextStyle.tabTextSelected
+                : AppTextStyle.tabText,
           ),
         ),
       ),

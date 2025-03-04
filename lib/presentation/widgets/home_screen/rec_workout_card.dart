@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:health_routine/gen/assets.gen.dart';
-import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 
-class RecommendedWorkoutCard extends StatefulWidget {
+class RecWorkoutCard extends StatefulWidget {
   final String title;
   final String description;
   final String time;
   final String image;
 
-  const RecommendedWorkoutCard({
+  const RecWorkoutCard({
     super.key,
     required this.title,
     required this.description,
@@ -18,16 +17,15 @@ class RecommendedWorkoutCard extends StatefulWidget {
   });
 
   @override
-  State<RecommendedWorkoutCard> createState() => _RecommendedWorkoutCardState();
+  State<RecWorkoutCard> createState() => _RecWorkoutCardState();
 }
 
-class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
+class _RecWorkoutCardState extends State<RecWorkoutCard> {
   bool isMarked = false;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.backgroundColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -57,7 +55,7 @@ class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
                       Expanded(
                         child: Text(
                           widget.title,
-                          style: AppTextStyle.subSectionTitle,
+                          style: AppTextStyle.cardTitle,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                         ),
@@ -67,12 +65,12 @@ class _RecommendedWorkoutCardState extends State<RecommendedWorkoutCard> {
                   const SizedBox(height: 4),
                   Text(
                     widget.description,
-                    style: AppTextStyle.workoutDescription,
+                    style: AppTextStyle.cardDescription,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     " ${widget.time}분",
-                    style: AppTextStyle.workoutDescription,
+                    style: AppTextStyle.cardDescription,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
