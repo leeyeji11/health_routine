@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 
@@ -60,115 +60,110 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
       body: Stack(
         children: [
           // 카메라 화면
-          Positioned.fill(
-            child: CameraPreview(_controller!),
-          ),
+          Positioned.fill(child: CameraPreview(_controller!)),
 
-          // 상단 아이콘 (플래시, 닫기, 정보)
-          Positioned(
-            top: 40,
-            left: MediaQuery.of(context).size.width * 0.15, // 왼쪽에서 15% 위치
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/lightning.svg',
-                width:
-                    MediaQuery.of(context).size.width * 0.08, // 화면 너비 기준 크기 조정
-                height: MediaQuery.of(context).size.width * 0.08,
-              ),
-              onPressed: () {},
-            ),
-          ),
-          Positioned(
-            top: 40,
-            left: MediaQuery.of(context).size.width * 0.35, // 화면 중앙에 정렬
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/camera_selected.svg',
-                width: MediaQuery.of(context).size.width * 0.08,
-                height: MediaQuery.of(context).size.width * 0.08,
-              ),
-              onPressed: () {},
-            ),
-          ),
-          Positioned(
-            top: 40,
-            right: MediaQuery.of(context).size.width * 0.35,
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/info.svg',
-                width: MediaQuery.of(context).size.width * 0.08,
-                height: MediaQuery.of(context).size.width * 0.08,
-              ),
-              onPressed: () {},
-            ),
-          ),
-
-          Positioned(
-            top: 40,
-            right: MediaQuery.of(context).size.width * 0.15,
-            child: IconButton(
-              icon: SvgPicture.asset(
-                'assets/icons/cross.svg',
-                width: MediaQuery.of(context).size.width * 0.08,
-                height: MediaQuery.of(context).size.width * 0.08,
-              ),
-              onPressed: () => context.pop(),
-            ),
-          ),
-
-          // 카메라 가이드 박스 (camera_area.svg) - 기존 위치 그대로 유지
-          Center(
-            child: SvgPicture.asset(
-              'assets/images/camera/camera_area.svg',
-              width: MediaQuery.of(context).size.width * 0.8, // 화면 크기 조절
-              height: MediaQuery.of(context).size.height * 0.4,
-            ),
-          ),
-
-          // 촬영 버튼 (camera_area.svg와 별도로 배치)
-          Positioned(
-            bottom: 60,
-            left: MediaQuery.of(context).size.width / 2 - 35, // 화면 중앙 정렬
-            child: GestureDetector(
-              onTap: _takePicture,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // 바깥쪽 촬영 버튼
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: const BoxDecoration(
-                      color: AppColors.secondColor,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-
-                  // 안쪽 촬영 버튼
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // 하단 안내 텍스트 (화면 중앙 배치)
-          Center(
+          // **🔹 상단 아이콘을 AppBar 없이 배치**
+          SafeArea(
             child: Column(
-              mainAxisSize: MainAxisSize.min, // Column이 필요한 크기만큼만 차지하도록 설정
               children: [
-                Text("운동 기구를 카메라로 촬영하고",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.cameraDesc),
-                Text("정확한 사용법을 배워요",
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.cameraDesc),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Assets.icons.lightning.svg(
+                          width: 32,
+                          height: 32,
+                        ),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: Assets.icons.cameraSelected.svg(
+                          width: 32,
+                          height: 32,
+                        ),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: Assets.icons.info.svg(
+                          width: 32,
+                          height: 32,
+                        ),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: Assets.icons.cross.svg(
+                          width: 32,
+                          height: 32,
+                        ),
+                        onPressed: () => context.pop(),
+                      ),
+                    ],
+                  ),
+                ),
+                const Spacer(), // **아이콘과 버튼 사이 공간 확보**
+              ],
+            ),
+          ),
+
+          // **🔹 카메라 가이드 박스 (중앙 정렬)**
+          Center(
+            child: Assets.images.camera.cameraArea.svg(
+              width: MediaQuery.of(context).size.width * 0.4,
+              height: MediaQuery.of(context).size.width * 0.8,
+            ),
+          ),
+
+          // **🔹 촬영 버튼을 하단 중앙에 배치**
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 60),
+              child: GestureDetector(
+                onTap: _takePicture,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: 70,
+                      height: 70,
+                      decoration: const BoxDecoration(
+                        color: AppColors.secondColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    Container(
+                      width: 56,
+                      height: 56,
+                      decoration: const BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // **🔹 하단 안내 텍스트 (중앙 정렬)**
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "운동 기구를 카메라로 촬영하고",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.cameraDesc,
+                ),
+                Text(
+                  "정확한 사용법을 배워요",
+                  textAlign: TextAlign.center,
+                  style: AppTextStyle.cameraDesc,
+                ),
               ],
             ),
           ),
