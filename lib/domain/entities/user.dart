@@ -18,7 +18,8 @@ class User {
       required this.password,
       this.name,
       this.level,
-      this.createAt, // required
+      DateTime? createAt, // 값을 안 넣으면 자동으로 현재 시간
       this.updateAt,
-      this.goal});
+      this.goal})
+      : createAt = createAt ?? DateTime.now(); // 기본값 설정
 }

@@ -109,6 +109,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/cross.svg
   SvgGenImage get cross => const SvgGenImage('assets/icons/cross.svg');
 
+  /// File path: assets/icons/female.svg
+  SvgGenImage get female => const SvgGenImage('assets/icons/female.svg');
+
   /// File path: assets/icons/info.svg
   SvgGenImage get info => const SvgGenImage('assets/icons/info.svg');
 
@@ -121,6 +124,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/mail.svg
   SvgGenImage get mail => const SvgGenImage('assets/icons/mail.svg');
+
+  /// File path: assets/icons/male.png
+  AssetGenImage get male => const AssetGenImage('assets/icons/male.png');
 
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
@@ -137,7 +143,7 @@ class $AssetsIconsGen {
       const SvgGenImage('assets/icons/watch_white.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
+  List<dynamic> get values => [
     home,
     homeSelected,
     search,
@@ -152,10 +158,12 @@ class $AssetsIconsGen {
     camera,
     cameraSelected,
     cross,
+    female,
     info,
     lightning,
     lockClosed,
     mail,
+    male,
     profile,
     starFilled,
     watch,
@@ -169,8 +177,8 @@ class $AssetsImagesGen {
   /// Directory path: assets/images/equipment
   $AssetsImagesEquipmentGen get equipment => const $AssetsImagesEquipmentGen();
 
-  /// Directory path: assets/images/splash
-  $AssetsImagesSplashGen get splash => const $AssetsImagesSplashGen();
+  /// Directory path: assets/images/start_page
+  $AssetsImagesStartPageGen get startPage => const $AssetsImagesStartPageGen();
 
   /// Directory path: assets/images/workout
   $AssetsImagesWorkoutGen get workout => const $AssetsImagesWorkoutGen();
@@ -191,15 +199,23 @@ class $AssetsImagesEquipmentGen {
   List<AssetGenImage> get values => [cycle, tradeMill];
 }
 
-class $AssetsImagesSplashGen {
-  const $AssetsImagesSplashGen();
+class $AssetsImagesStartPageGen {
+  const $AssetsImagesStartPageGen();
 
-  /// File path: assets/images/splash/hr_splash.png
+  /// File path: assets/images/start_page/hr_splash.png
   AssetGenImage get hrSplash =>
-      const AssetGenImage('assets/images/splash/hr_splash.png');
+      const AssetGenImage('assets/images/start_page/hr_splash.png');
+
+  /// File path: assets/images/start_page/start_image_1.png
+  AssetGenImage get startImage1 =>
+      const AssetGenImage('assets/images/start_page/start_image_1.png');
+
+  /// File path: assets/images/start_page/start_image_2.png
+  AssetGenImage get startImage2 =>
+      const AssetGenImage('assets/images/start_page/start_image_2.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [hrSplash];
+  List<AssetGenImage> get values => [hrSplash, startImage1, startImage2];
 }
 
 class $AssetsImagesWorkoutGen {

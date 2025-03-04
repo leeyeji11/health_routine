@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:health_routine/data/routine_mock_data.dart';
+import 'package:health_routine/data/rec_routine_mock.dart';
 import 'package:health_routine/domain/entities/routine.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
 import 'package:health_routine/presentation/widgets/home_screen/equipment_search_block.dart';
-import 'package:health_routine/presentation/widgets/home_screen/recommended_workout_tab_bar.dart';
-import 'package:health_routine/presentation/widgets/home_screen/recommended_workout_list.dart';
+import 'package:health_routine/presentation/widgets/home_screen/rec_workout_tab_block.dart';
+import 'package:health_routine/presentation/widgets/home_screen/rec_workout_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,97 +16,32 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedTab = 0; // 선택된 탭 인덱스 (0: 초급, 1: 중급, 2: 상급, 3: 스트레칭)
-
-  final List<String> tabs = ["초급", "중급", "상급", "스트레칭"];
-
-  List<Map<String, dynamic>> getFilteredWorkouts() {
-    Difficulty selectedDifficulty;
-    switch (selectedTab) {
-      case 0:
-        selectedDifficulty = Difficulty.easy;
-        break;
-      case 1:
-        selectedDifficulty = Difficulty.medium;
-        break;
-      case 2:
-        selectedDifficulty = Difficulty.hard;
-        break;
-      case 3:
-        selectedDifficulty = Difficulty.stretching;
-        break;
-      default:
-        selectedDifficulty = Difficulty.easy;
-    }
-    return RoutineMockData.workoutData
-        .where((routine) => routine.difficulty == selectedDifficulty)
-        .map((routine) => routine.toMap())
-        .toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _workoutBanner(),
-              SizedBox(height: 15),
-              Text("추천 운동 루틴", style: AppTextStyle.subSectionTitle),
-              SizedBox(height: 15),
-              // 🔹 탭 버튼 위젯
-              RecommendedWorkoutTabBar(
-                tabs: tabs,
-                selectedTab: selectedTab,
-                onTabSelected: (index) {
-                  setState(() {
-                    selectedTab = index;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              // 🔹 운동 루틴 리스트 위젯
-              Flexible(
-                child: RecommendedWorkoutList(workouts: getFilteredWorkouts()),
-              ),
-
-              // 🔹 더 보기 버튼
-              TextButton(
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text("더 보기", style: AppTextStyle.moreButton),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    const Icon(Icons.arrow_forward_ios, size: 16),
-                  ],
-                ),
-              ),
-              Text(
-                "운동 기구",
-                style: AppTextStyle.subSectionTitle,
-              ),
-              SizedBox(height: 10),
-              _buildSearchBar(),
-              SizedBox(height: 10),
-              SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: equipmentSearchBlock(),
-              ),
-            ],
-          ),
+        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            WorkoutBannerBlock(), // 🏋️‍♂️ 운동 배너 블록
+            SizedBox(height: 15),
+            RecWorkoutBlock(), // 🏋️‍♀️ 추천 운동 루틴 블록
+            SizedBox(height: 15),
+            EquipmentSearchBlockWidget(), // 🔍 운동 기구 서치 블록
+          ],
         ),
       ),
     );
   }
+}
 
-  Widget _workoutBanner() {
+// 📌 운동 배너 블록
+class WorkoutBannerBlock extends StatelessWidget {
+  const WorkoutBannerBlock({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ClipRRect(
@@ -130,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: AppColors.secondColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Text("데일리 운동 루틴", style: AppTextStyle.button),
+                  child: Text("데일리 운동 루틴", style: AppTextStyle.buttonText),
                 ),
               ),
             )
@@ -139,8 +74,85 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+}
 
-  Widget _buildSearchBar() {
+// 📌 추천 운동 루틴 블록
+class RecWorkoutBlock extends StatefulWidget {
+  const RecWorkoutBlock({super.key});
+
+  @override
+  State<RecWorkoutBlock> createState() => _RecWorkoutBlockState();
+}
+
+class _RecWorkoutBlockState extends State<RecWorkoutBlock> {
+  int selectedTab = 0;
+  final List<String> tabs = ["초급", "중급", "상급", "스트레칭"];
+
+  List<Map<String, dynamic>> getFilteredWorkouts() {
+    Difficulty selectedDifficulty;
+    switch (selectedTab) {
+      case 0:
+        selectedDifficulty = Difficulty.easy;
+        break;
+      case 1:
+        selectedDifficulty = Difficulty.medium;
+        break;
+      case 2:
+        selectedDifficulty = Difficulty.hard;
+        break;
+      case 3:
+        selectedDifficulty = Difficulty.stretching;
+        break;
+      default:
+        selectedDifficulty = Difficulty.easy;
+    }
+    return RecRoutineMock.recRoutineMock
+        .where((routine) => routine.difficulty == selectedDifficulty)
+        .map((routine) => routine.toMap())
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("추천 운동 루틴", style: AppTextStyle.subSectionTitle),
+        SizedBox(height: 15),
+        RecWorkoutTabBlock(
+          tabs: tabs,
+          selectedTab: selectedTab,
+          onTabSelected: (index) {
+            setState(() {
+              selectedTab = index;
+            });
+          },
+        ),
+        const SizedBox(height: 16),
+        RecommendedWorkoutList(
+          workouts: getFilteredWorkouts(),
+        ),
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text("더 보기", style: AppTextStyle.moreButton),
+              SizedBox(width: 5),
+              const Icon(Icons.arrow_forward_ios, size: 16),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// 📌 운동 기구 서치 블록
+class EquipmentSearchBlockWidget extends StatelessWidget {
+  const EquipmentSearchBlockWidget({super.key});
+
+  Widget _buildSearchBar(BuildContext context) {
     return Container(
       height: 50,
       width: MediaQuery.of(context).size.width,
@@ -163,6 +175,23 @@ class _HomeScreenState extends State<HomeScreen> {
           Assets.icons.search.svg(),
         ],
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("운동 기구", style: AppTextStyle.subSectionTitle),
+        SizedBox(height: 10),
+        _buildSearchBar(context),
+        SizedBox(height: 10),
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: equipmentSearchBlock(),
+        ),
+      ],
     );
   }
 }

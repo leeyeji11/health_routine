@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:health_routine/presentation/screens/main_screen.dart';
+import 'package:health_routine/core/routers.dart';
+import 'package:health_routine/presentation/theme/app_color.dart';
 
 void main() {
   runApp(HR());
@@ -10,12 +11,11 @@ class HR extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: Colors.white,
+    return MaterialApp.router(
+      color: AppColors.white,
       title: 'Health Routine',
       debugShowCheckedModeBanner: false,
-      // routerConfig: router,
-      home: MainScreen(),
+      routerConfig: router,
     );
   }
 }
