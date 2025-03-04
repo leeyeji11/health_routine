@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:health_routine/presentation/pages/sign_in_page.dart';
 import 'package:health_routine/presentation/pages/sign_up_page.dart';
@@ -13,11 +14,16 @@ import 'package:health_routine/presentation/screens/plan_form_edit_screen.dart';
 import 'package:health_routine/presentation/screens/profile_screen.dart';
 
 GoRouter get router => _router;
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>();
 
 final GoRouter _router = GoRouter(
+  navigatorKey: _rootNavigatorKey, // ✅ 최상위 Navigator 사용
   initialLocation: '/',
   routes: [
     ShellRoute(
+      navigatorKey: _shellNavigatorKey, // ✅ ShellRoute에도 navigatorKey 설정
       builder: (context, state, child) {
         return MainScreen(child: child); // BottomNavigationBar 포함
       },
@@ -27,14 +33,15 @@ final GoRouter _router = GoRouter(
           builder: (context, state) => HomeScreen(),
         ),
         GoRoute(
-          path: '/instrument-scan',
-          builder: (context, state) => InstrumentScanScreen(),
-        ),
-        GoRoute(
           path: '/calendar',
           builder: (context, state) => CalendarScreen(),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/instrument-scan',
+      parentNavigatorKey: _rootNavigatorKey, // ✅ 최상위 Navigator에서 실행
+      builder: (context, state) => const InstrumentScanScreen(),
     ),
     GoRoute(
       path: '/plan-form-edit',

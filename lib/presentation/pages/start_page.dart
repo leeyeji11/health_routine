@@ -34,6 +34,7 @@ class _StartPageState extends State<StartPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min, // 🔹 Column이 자식 크기만큼만 차지하도록 설정
         children: [
           SizedBox(height: 52), // Status bar height 고려
