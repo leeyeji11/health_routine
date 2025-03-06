@@ -190,12 +190,13 @@ class EquipmentInfoScreen extends StatelessWidget {
 
             // ✅ 영상 항목 1
             Stack(
+              alignment: Alignment.center,
               children: [
                 Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  width: 305,
-                  height: 183,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/workout/running2.png'),
@@ -204,26 +205,22 @@ class EquipmentInfoScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                Positioned(
-                  top: 70,
-                  left: 128,
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: 50,
-                    color: Colors.white,
-                  ),
+                Icon(
+                  Icons.play_arrow,
+                  size: 50,
+                  color: Colors.white,
                 ),
               ],
             ),
-
             // ✅ 영상 항목 2
             Stack(
+              alignment: Alignment.center,
               children: [
                 Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                  width: 305,
-                  height: 183,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.25,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/workout/running1.png'),
@@ -232,14 +229,10 @@ class EquipmentInfoScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(4),
                   ),
                 ),
-                Positioned(
-                  top: 70,
-                  left: 128,
-                  child: Icon(
-                    Icons.play_arrow,
-                    size: 50,
-                    color: Colors.white,
-                  ),
+                Icon(
+                  Icons.play_arrow,
+                  size: 50,
+                  color: Colors.white,
                 ),
               ],
             ),
