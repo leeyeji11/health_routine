@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class InstrumentScanScreen extends StatefulWidget {
   const InstrumentScanScreen({super.key});
@@ -16,11 +17,20 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
   CameraController? _controller;
   List<CameraDescription> _cameras = []; // 사용 가능한 카메라 목록 저장 리스트
   bool isCameraInitialized = false;
+  bool _showGuide = true;
 
   @override
   void initState() {
     super.initState();
-    _initializeCamera(); // 카메라를 설정
+    _initializeCamera();
+
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        setState(() {
+          _showGuide = false;
+        });
+      }
+    });
   }
 
   Future<void> _initializeCamera() async {
@@ -50,7 +60,33 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
     if (!isCameraInitialized) {
       return Scaffold(
         backgroundColor: Colors.black, // 검은 화면 유지
-        body: Center(child: CircularProgressIndicator()), // 로딩 표시
+        body: Center(child:  Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "📷 카메라 권한이 필요합니다.",
+                style: AppTextStyle.cameraDesc,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  final newStatus = await Permission.camera.request();
+                  if (newStatus.isGranted) {
+                    _initializeCamera();
+                  }
+                },
+                child: Text("권한 요청"),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  openAppSettings();
+                },
+                child: Text("앱 설정에서 권한 허용"),
+              ),
+            ],
+          ),), // 로딩 표시
       );
     }
 
@@ -109,6 +145,7 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
           ),
 
           // **🔹 카메라 가이드 박스 (중앙 정렬)**
+          if(_showGuide)
           Center(
             child: Assets.images.camera.cameraArea.svg(
               width: MediaQuery.of(context).size.width * 0.4,
@@ -149,6 +186,7 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
           ),
 
           // **🔹 하단 안내 텍스트 (중앙 정렬)**
+          if(_showGuide)
           Align(
             alignment: Alignment.center,
             child: Column(
@@ -194,3 +232,4 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
     super.dispose();
   }
 }
+
