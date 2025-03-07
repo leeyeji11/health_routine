@@ -39,6 +39,14 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
   Future<void> _checkPermissionsAndInitializeCamera() async {
     final cameraStatus = await Permission.camera.status;
 
+    if (cameraStatus.isGranted) {
+      debugPrint("✅ 카메라 권한이 허용되었습니다.");
+    } else if (cameraStatus.isDenied) {
+      debugPrint("❌ 카메라 권한이 거부되었습니다.");
+    } else if (cameraStatus.isPermanentlyDenied) {
+      debugPrint("⚠️ 카메라 권한이 영구적으로 거부됨, 설정에서 변경 필요");
+      openAppSettings();
+    }
     if (!cameraStatus.isGranted) {
       final newStatus = await Permission.camera.request();
       // request() : 카메라 권한을 요청하는 함수
@@ -60,7 +68,8 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
   /// ✅ 카메라 초기화
   Future<void> _initializeCamera() async {
     try {
-      _cameras = await availableCameras(); // availableCameras()는 현재 기기에 연결된 카메라 목록을 가져오는 함수
+      _cameras =
+          await availableCameras(); // availableCameras()는 현재 기기에 연결된 카메라 목록을 가져오는 함수
       if (_cameras.isNotEmpty) {
         _controller = CameraController(
           _cameras[0], // 첫 번째 카메라 선택
@@ -149,7 +158,8 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -158,7 +168,8 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
                         onPressed: () {},
                       ),
                       IconButton(
-                        icon: Assets.icons.cameraSelected.svg(width: 32, height: 32),
+                        icon: Assets.icons.cameraSelected
+                            .svg(width: 32, height: 32),
                         onPressed: () {},
                       ),
                       IconButton(
@@ -185,7 +196,7 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
                 height: MediaQuery.of(context).size.width * 0.8,
               ),
             ),
-          if(_showGuide)
+          if (_showGuide)
             Align(
               alignment: Alignment.center,
               child: Column(
@@ -204,9 +215,6 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
                 ],
               ),
             ),
-
-
-
 
           // 📷 촬영 버튼 (하단 중앙)
           Align(
