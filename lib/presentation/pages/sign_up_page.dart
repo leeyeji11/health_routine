@@ -34,10 +34,17 @@ class SignUpPageState extends State<SignUpPage> {
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-      Showsnackbars.showSnackBar(context, "회원가입 성공!");
-      Navigator.pop(context); // 회원가입 후 로그인 화면으로 이동
+      if (mounted) {
+        Showsnackbars.showSnackBar(context, "회원가입 성공!");
+      }
+      if (mounted) {
+        Navigator.pop(context);
+      }
+      // 회원가입 후 로그인 화면으로 이동
     } catch (e) {
-      Showsnackbars.showSnackBar(context, "회원가입 실패 : $e");
+      if (mounted) {
+        Showsnackbars.showSnackBar(context, "회원가입 실패 : $e");
+      }
     }
   }
 

@@ -37,7 +37,7 @@ class _StartPageState extends State<StartPage> {
         leading: IconButton(
           onPressed: () {
             Future.delayed(Duration(milliseconds: 50), () {
-              if (mounted) {
+              if (context.mounted) {
                 context.go('/');
               }
             });

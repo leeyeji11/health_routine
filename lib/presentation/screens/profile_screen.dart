@@ -15,35 +15,38 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<void> signOut() async {
       try {
-        print("🧡 로그아웃 시도 중...");
+        debugPrint("🧡 로그아웃 시도 중...");
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         bool hasData = prefs.getKeys().isNotEmpty;
-        print("🧡 로그인 정보 존재 여부: $hasData");
+        debugPrint("🧡 로그인 정보 존재 여부: $hasData");
 
-        if (!hasData) {
+        if (!hasData && context.mounted) {
           Showsnackbars.showSnackBar(context, "비회원입니다.");
-          print("⚠ 비회원 상태 확인됨");
+          debugPrint("⚠ 비회원 상태 확인됨");
           return;
         }
         await FirebaseAuth.instance.signOut();
-        print("⭐️ Firebase 로그아웃 완료");
+        debugPrint("⭐️ Firebase 로그아웃 완료");
 
         await prefs.clear();
-        print("⭐️ SharedPreferences 초기화 완료");
-
-        Showsnackbars.showSnackBar(context, "로그아웃되었습니다.");
+        debugPrint("⭐️ SharedPreferences 초기화 완료");
+        if (context.mounted) {
+          Showsnackbars.showSnackBar(context, "로그아웃되었습니다.");
+        }
 
         if (context.mounted) {
           context.go('/');
-          print("✔ 로그인 화면으로 이동 완료");
+          debugPrint("✔ 로그인 화면으로 이동 완료");
         } else {
-          print("⚠ context가 이미 dispose됨");
+          debugPrint("⚠ context가 이미 dispose됨");
         }
       } catch (e, stackTrace) {
-        print("❌ 로그아웃 중 오류 발생: $e");
-        print("🛠 오류 스택 트레이스: $stackTrace");
-        Showsnackbars.showSnackBar(context, "로그아웃에 실패했습니다.");
+        debugPrint("❌ 로그아웃 중 오류 발생: $e");
+        debugPrint("🛠 오류 스택 트레이스: $stackTrace");
+        if (context.mounted) {
+          Showsnackbars.showSnackBar(context, "로그아웃에 실패했습니다.");
+        }
       }
     }
 

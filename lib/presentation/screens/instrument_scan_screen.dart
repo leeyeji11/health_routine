@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class InstrumentScanScreen extends StatefulWidget {
@@ -104,7 +107,47 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
     }
   }
 
-  /// ✅ UI 빌드
+  Future<void> _pickImageFromGallery() async {
+    PermissionStatus status;
+
+    if (Platform.isAndroid) {
+      status = await Permission.storage.status;
+    } else {
+      status = await Permission.photos.status;
+    }
+
+    if (!status.isGranted) {
+      PermissionStatus newStatus;
+
+      if (Platform.isAndroid) {
+        newStatus = await Permission.storage.request();
+      } else {
+        newStatus = await Permission.photos.request();
+      }
+
+      if (!newStatus.isGranted) {
+        debugPrint("📌 갤러리 권한이 거부됨");
+        return;
+      }
+    }
+
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null && mounted) {
+      context.push('/equipment-info', extra: image.path);
+    } else {
+      debugPrint("🚨 이미지 선택 취소됨");
+
+      // ✅ 갤러리에서 선택하지 않고 돌아오면 카메라 다시 활성화 + UI 갱신
+      setState(() {
+        isCameraInitialized = false; // 카메라를 다시 초기화하도록 상태 변경
+      });
+      await _initializeCamera();
+    }
+  }
+
+// ✅ UI 빌드
   @override
   Widget build(BuildContext context) {
     // 권한 확인 중이면 인디케이터 표시
@@ -145,7 +188,6 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
         ),
       );
     }
-
     // ✅ 카메라 준비 완료 → 카메라 화면 표시
     return Scaffold(
       backgroundColor: Colors.black,
@@ -244,6 +286,18 @@ class _InstrumentScanScreenState extends State<InstrumentScanScreen> {
                     ),
                   ],
                 ),
+              ),
+            ),
+          ),
+
+          // 📂 갤러리 버튼 (하단 왼쪽)
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 60, left: 30),
+              child: GestureDetector(
+                onTap: _pickImageFromGallery,
+                child: Icon(Icons.image, size: 40, color: Colors.white),
               ),
             ),
           ),
