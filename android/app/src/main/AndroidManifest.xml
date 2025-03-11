@@ -1,11 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 카메라 사용 권한을 요청합니다. -->
     <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 앱에서 카메라 기능을 사용함을 명시합니다. (필수 기능으로 설정됨) -->
     <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <!-- 앱에서 카메라의 자동 초점 기능을 사용함을 명시합니다. (필수 기능으로 설정됨) --><uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="true"/>
+    <!-- 인터넷 사용 권한을 요청합니다. (예: API 요청, 네트워크 통신) - google ml kit 사용 -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- 안드로이드 13 (SDK 33) 이상에서 알림 권한을 요청합니다. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <!-- 외부 저장소(갤러리 등)에서 파일을 읽을 수 있는 권한을 요청합니다. (Android 10 이하에서 사용) -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 외부 저장소(갤러리 등)에 파일을 저장할 수 있는 권한을 요청합니다. (Android 10 이하에서 사용) -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- Android 13 (SDK 33) 이상에서는 추가적으로 아래 권한 필요 -->
+    <!-- Android 13 (SDK 33) 이상에서는 READ_EXTERNAL_STORAGE 대신 READ_MEDIA_IMAGES 권한을 사용해야 합니다. 
+         이 권한을 통해 앱에서 갤러리의 이미지를 읽을 수 있습니다. -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
         android:label="health_routine"

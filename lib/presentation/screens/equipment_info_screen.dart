@@ -3,10 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
+import 'package:health_routine/services/ml_kit_service.dart';
 
-class EquipmentInfoScreen extends StatelessWidget {
+class EquipmentInfoScreen extends StatefulWidget {
   final String imagePath;
   const EquipmentInfoScreen({super.key, required this.imagePath});
+
+  @override
+  _EquipmentInfoScreenState createState() => _EquipmentInfoScreenState();
+}
+
+class _EquipmentInfoScreenState extends State<EquipmentInfoScreen> {
+  final MLKitService _mlKitService = MLKitService();
+  String detectedEquipment = "분석 중...";
+
+  @override
+  void initState() {
+    super.initState();
+    _analyzeImage();
+  }
+
+  Future<void> _analyzeImage() async {
+    final result = await _mlKitService.detectEquipment(widget.imagePath);
+    setState(() {
+      detectedEquipment = result ?? "인식 실패";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +61,9 @@ class EquipmentInfoScreen extends StatelessWidget {
                 height: 360,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: (imagePath.isNotEmpty && imagePath != '')
-                        ? FileImage(File(imagePath)) // 촬영한 이미지 적용
+                    image: (widget.imagePath.isNotEmpty &&
+                            widget.imagePath != '')
+                        ? FileImage(File(widget.imagePath)) // 촬영한 이미지 적용
                         : AssetImage('assets/images/equipment/trade_mill.png')
                             as ImageProvider, // 기본 이미지
                     fit: BoxFit.cover,
@@ -52,9 +75,9 @@ class EquipmentInfoScreen extends StatelessWidget {
 
             // ✅ 기구 제목
             Center(
-              child: const Text(
-                '트레드밀',
-                style: TextStyle(
+              child: Text(
+                detectedEquipment,
+                style: const TextStyle(
                   fontFamily: 'Pretendard',
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
