@@ -17,6 +17,7 @@
          이 권한을 통해 앱에서 갤러리의 이미지를 읽을 수 있습니다. -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <application
+        android:usesCleartextTraffic="true" 
         android:label="health_routine"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
