@@ -12,7 +12,7 @@ class SplashScreeen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/splash/hr_splash.png"),
+            Image.asset("assets/images/start_page/hr_splash.png"),
           ],
         ),
       ),

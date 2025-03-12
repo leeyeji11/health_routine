@@ -12,6 +12,7 @@ import 'package:health_routine/presentation/screens/main_screen.dart';
 import 'package:health_routine/presentation/screens/notification_list_screen.dart';
 import 'package:health_routine/presentation/screens/plan_form_edit_screen.dart';
 import 'package:health_routine/presentation/screens/profile_screen.dart';
+import 'package:health_routine/presentation/screens/splash_screeen.dart';
 
 GoRouter get router => _router;
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -70,13 +71,17 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: '/equipment-info',
       builder: (context, state) {
-       final imagePath = state.extra is String ? state.extra as String : '';
+        final imagePath = state.extra is String ? state.extra as String : '';
         return EquipmentInfoScreen(imagePath: imagePath);
       },
     ),
     GoRoute(
       path: '/bookmark',
       builder: (context, state) => BookmarkScreen(),
+    ),
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => SplashScreeen(),
     ),
   ],
 );

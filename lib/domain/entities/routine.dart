@@ -16,7 +16,7 @@ enum Category {
 class Routine {
   final BigInt routineId; // 루틴PK
   String title; // 루틴명
-  String description; // 루틴 설명
+  String description; // 루틴 설명 // Firestore에서 삭제
   int? time; // 운동 시간 (분 단위)
   Category category; // 운동 카테고리 (예: 유산소, 근력)
   String? image; // 루틴 이미지 URL

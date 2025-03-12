@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
+import 'package:health_routine/services/firebase_service.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:health_routine/data/routine_mock.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -17,6 +19,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _selectedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month; // 기본값: 월별 달력
   bool _isCollapsed = false; // 달력이 축소되었는지 여부
+  // 날짜별 routines를 저장할 Map
+  Map<DateTime, List<Map<String, dynamic>>> routinesByDate = {};
+  List<Map<String, dynamic>> selectedDayRoutines = [];
 
   double _getCalendarHeight(DateTime focusedDay) {
     // 🟢 해당 달의 첫째 날과 마지막 날 가져오기
@@ -43,14 +48,47 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _loadAndGroupRoutines();
+  }
+
+  void _loadAndGroupRoutines() async {
+    var routines = await RoutineService().getAllRoutines();
+    routinesByDate.clear();
+
+    for (var routine in routines) {
+      if (routine['startDate'] == null) {
+        continue;
+      }
+
+      DateTime routineDate = (routine['startDate'] as Timestamp).toDate();
+      DateTime dateKey = DateTime.utc(
+        routineDate.year,
+        routineDate.month,
+        routineDate.day,
+      );
+
+      if (routinesByDate[dateKey] == null) {
+        routinesByDate[dateKey] = [];
+      }
+
+      routinesByDate[dateKey]!.add(routine);
+    }
+
+    print("최종 routinesByDate 데이터: $routinesByDate");
+
+    for (var routine in routines) {
+      print("개별 routine 날짜 데이터: ${routine['startDate']}");
+    }
+
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     final Map<DateTime, List<Map<String, dynamic>>> routines =
         RoutineMock.routineLists;
-    // ✅ 선택한 날짜(_selectedDay)와 같은 날짜의 데이터 찾기
-    List<Map<String, dynamic>> selectedDayRoutines = routines.entries
-        .firstWhere((entry) => isSameDay(entry.key, _selectedDay),
-            orElse: () => MapEntry(_selectedDay, []))
-        .value;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -135,48 +173,52 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       height: _isCollapsed
-          ? MediaQuery.of(context).size.height * 0.2 // 축소 시 높이
+          ? MediaQuery.of(context).size.height * 0.2
           : (_calendarFormat == CalendarFormat.month
-              ? _getCalendarHeight(_selectedDay) // 🟢 주 수에 따라 달력 높이 동적 조정
-              : MediaQuery.of(context).size.height * 0.3), // 🟢 주별 달력 크기 조정
-      width: MediaQuery.of(context).size.width,
-
+              ? _getCalendarHeight(_selectedDay)
+              : MediaQuery.of(context).size.height * 0.3),
       child: TableCalendar(
+        eventLoader: (day) {
+          return routinesByDate[DateTime.utc(day.year, day.month, day.day)] ??
+              [];
+        },
         calendarStyle: CalendarStyle(
-          outsideDaysVisible: false, // 달력 바깥 날짜 숨김
+          outsideDaysVisible: false,
         ),
         focusedDay: _selectedDay,
         firstDay: DateTime.utc(2020, 1, 1),
         lastDay: DateTime.utc(2030, 12, 31),
         calendarFormat: _calendarFormat,
         startingDayOfWeek: StartingDayOfWeek.sunday,
-        daysOfWeekHeight: 30, // 요일 표시 영역의 높이
-        rowHeight: 50, // 각 주(week)의 높이 고정 (6주를 고려한 값)
+        daysOfWeekHeight: 30,
+        rowHeight: 50,
         selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         onDaySelected: (selectedDay, focusedDay) {
           setState(() {
             _selectedDay = selectedDay;
-            _calendarFormat = CalendarFormat.week; // 선택하면 주별 달력으로 변경
-            _isCollapsed = true; // 달력을 위로 축소
+            _calendarFormat = CalendarFormat.week;
+            _isCollapsed = true;
+            selectedDayRoutines = routinesByDate[DateTime.utc(
+                    selectedDay.year, selectedDay.month, selectedDay.day)] ??
+                [];
           });
         },
         headerVisible: false,
         calendarBuilders: CalendarBuilders(
           defaultBuilder: (context, day, focusedDay) {
-            bool isToday = isSameDay(day, DateTime.now()); // 오늘 날짜 확인
-            bool isSelected = isSameDay(_selectedDay, day); // 선택된 날짜 확인
+            bool isToday = isSameDay(day, DateTime.now());
+            bool isSelected = isSameDay(_selectedDay, day);
 
             return Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              alignment: Alignment.center, // 요일과 숫자 정렬 유지
+              alignment: Alignment.center,
               child: Text(
                 day.day.toString(),
                 style: TextStyle(
                   color: isSelected
-                      ? AppColors.white // 선택된 날짜는 흰색
+                      ? AppColors.white
                       : isToday
-                          ? AppColors.primaryColor // 오늘 날짜(선택 안 됨) - 지정 색상
-                          : AppColors.black, // 기본 날짜 - 검정
+                          ? AppColors.primaryColor
+                          : AppColors.black,
                   fontWeight: isSelected || isToday
                       ? FontWeight.bold
                       : FontWeight.normal,
@@ -186,19 +228,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
           },
           selectedBuilder: (context, day, focusedDay) {
             return Align(
-              alignment: Alignment.center, // 정렬 유지
+              alignment: Alignment.center,
               child: Container(
                 width: MediaQuery.of(context).size.width * 0.1,
                 height: MediaQuery.of(context).size.width * 0.1,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryColor, // 선택된 날짜의 배경색
+                  color: AppColors.primaryColor,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   day.day.toString(),
                   style: TextStyle(
-                    color: Colors.white, // 선택된 날짜의 글씨 색상
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -206,20 +248,17 @@ class _CalendarScreenState extends State<CalendarScreen> {
             );
           },
           todayBuilder: (context, day, focusedDay) {
-            bool isSelected = isSameDay(_selectedDay, day); // 오늘 날짜가 선택되었는지 확인
-
+            bool isSelected = isSameDay(_selectedDay, day);
             if (isSelected) {
-              // 선택된 날짜는 selectedBuilder에서 처리
               return null;
             }
 
-            // 선택되지 않은 오늘 날짜는 텍스트 색상만 변경하고 동그라미 제거
             return Container(
               alignment: Alignment.center,
               child: Text(
                 day.day.toString(),
                 style: TextStyle(
-                  color: AppColors.primaryColor, // 오늘 날짜 색상만 변경
+                  color: AppColors.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -246,6 +285,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
       onDismissed: (direction) {
         onDelete();
+        RoutineService().deleteRoutine(routine["id"]);
       },
       child: Stack(
         children: [
@@ -264,10 +304,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   Colors.teal.withOpacity(0.5), // ✅ 원하는 색상 & 투명도 설정
                   BlendMode.srcATop, // ✅ 이미지와 색상을 자연스럽게 합성
                 ),
-                child: Image.asset(
-                  routine["image"] ?? "assets/default.png",
-                  fit: BoxFit.cover,
-                ),
+                child: routine["image"] != null &&
+                        routine["image"].toString().isNotEmpty
+                    ? Image.network(
+                        routine["image"],
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        "assets/images/workout/running1.png",
+                        fit: BoxFit.cover,
+                      ),
               ),
             ),
           ),

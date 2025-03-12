@@ -117,45 +117,47 @@ class _SignInPageState extends State<SignInPage> {
             },
             icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('로그인', style: AppTextStyle.authTitle),
-              const SizedBox(height: 40),
-              _buildInputField(
-                  controller: _emailController,
-                  icon: Icons.person,
-                  hintText: '이메일'),
-              const SizedBox(height: 16),
-              _buildInputField(
-                  controller: _passwordController,
-                  icon: Icons.lock,
-                  hintText: '비밀번호',
-                  obscureText: true),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Checkbox(
-                    value: _autoLogin,
-                    onChanged: (value) {
-                      setState(() {
-                        _autoLogin = value ?? false;
-                      });
-                    },
-                  ),
-                  Text('자동 로그인', style: AppTextStyle.authAutoLogin),
-                ],
-              ),
-              const SizedBox(height: 30),
-              _buildLoginButton(),
-              if (_isLoading)
-                const Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: CircularProgressIndicator()),
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('로그인', style: AppTextStyle.authTitle),
+                const SizedBox(height: 40),
+                _buildInputField(
+                    controller: _emailController,
+                    icon: Icons.person,
+                    hintText: '이메일'),
+                const SizedBox(height: 16),
+                _buildInputField(
+                    controller: _passwordController,
+                    icon: Icons.lock,
+                    hintText: '비밀번호',
+                    obscureText: true),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _autoLogin,
+                      onChanged: (value) {
+                        setState(() {
+                          _autoLogin = value ?? false;
+                        });
+                      },
+                    ),
+                    Text('자동 로그인', style: AppTextStyle.authAutoLogin),
+                  ],
+                ),
+                const SizedBox(height: 30),
+                _buildLoginButton(),
+                if (_isLoading)
+                  const Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: CircularProgressIndicator()),
+              ],
+            ),
           ),
         ),
       ),

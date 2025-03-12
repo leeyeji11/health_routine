@@ -58,47 +58,49 @@ class SignUpPageState extends State<SignUpPage> {
             },
             icon: Icon(Icons.arrow_back_ios)),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '회원가입',
-                style: AppTextStyle.authTitle,
-              ),
-              const SizedBox(height: 40),
-              _buildInputField(
-                controller: _emailController,
-                icon: Icons.email,
-                hintText: '이메일 주소',
-                obscureText: false,
-              ),
-              const SizedBox(height: 16),
-              _buildInputField(
-                controller: _phoneController,
-                icon: Icons.phone,
-                hintText: '휴대폰 번호',
-                obscureText: false,
-              ),
-              const SizedBox(height: 16),
-              _buildInputField(
-                controller: _idController,
-                icon: Icons.person,
-                hintText: 'ID',
-                obscureText: false,
-              ),
-              const SizedBox(height: 16),
-              _buildInputField(
-                controller: _passwordController,
-                icon: Icons.lock,
-                hintText: '비밀번호',
-                obscureText: true,
-              ),
-              const SizedBox(height: 30),
-              _buildSignupButton(),
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '회원가입',
+                  style: AppTextStyle.authTitle,
+                ),
+                const SizedBox(height: 40),
+                _buildInputField(
+                  controller: _emailController,
+                  icon: Icons.email,
+                  hintText: '이메일 주소',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 16),
+                _buildInputField(
+                  controller: _phoneController,
+                  icon: Icons.phone,
+                  hintText: '휴대폰 번호',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 16),
+                _buildInputField(
+                  controller: _idController,
+                  icon: Icons.person,
+                  hintText: 'ID',
+                  obscureText: false,
+                ),
+                const SizedBox(height: 16),
+                _buildInputField(
+                  controller: _passwordController,
+                  icon: Icons.lock,
+                  hintText: '비밀번호',
+                  obscureText: true,
+                ),
+                const SizedBox(height: 30),
+                _buildSignupButton(),
+              ],
+            ),
           ),
         ),
       ),

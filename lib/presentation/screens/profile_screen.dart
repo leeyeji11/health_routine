@@ -64,6 +64,9 @@ class ProfileScreen extends StatelessWidget {
         'icon': Icons.logout,
         'onTap': () {
           signOut();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('로그아웃되었습니다.')),
+          );
         }
       },
       {

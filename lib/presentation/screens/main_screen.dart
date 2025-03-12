@@ -71,6 +71,9 @@ class _MainScreenState extends State<MainScreen> {
               centerTitle: true,
               actions: [
                 IconButton(
+                    onPressed: () => context.push('/splash'),
+                    icon: Icon(Icons.light)),
+                IconButton(
                     onPressed: () => context.push('/start'),
                     icon: Icon(Icons.person_2_outlined)),
                 IconButton(
