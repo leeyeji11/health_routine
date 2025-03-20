@@ -43,3 +43,12 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/ios/build/
+/ios/XCBuildData/
+android/app/.cxx/
+ios/Flutter/Debug.xcconfig
+ios/Flutter/Release.xcconfig
+linux/flutter/generated_plugins.cmake
+macos/Flutter/Flutter-Debug.xcconfig
+macos/Flutter/Flutter-Release.xcconfig
+macos/Flutter/generated_plugin_registrant.cc

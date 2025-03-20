@@ -1,15 +1,55 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:health_routine/core/show_snack_bars.dart';
 import 'package:health_routine/gen/assets.gen.dart';
 import 'package:go_router/go_router.dart';
 import 'package:health_routine/presentation/theme/app_color.dart';
 import 'package:health_routine/presentation/theme/app_text_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Future<void> signOut() async {
+      try {
+        debugPrint("🧡 로그아웃 시도 중...");
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        bool hasData = prefs.getKeys().isNotEmpty;
+        debugPrint("🧡 로그인 정보 존재 여부: $hasData");
+
+        if (!hasData && context.mounted) {
+          Showsnackbars.showSnackBar(context, "비회원입니다.");
+          debugPrint("⚠ 비회원 상태 확인됨");
+          return;
+        }
+        await FirebaseAuth.instance.signOut();
+        debugPrint("⭐️ Firebase 로그아웃 완료");
+
+        await prefs.clear();
+        debugPrint("⭐️ SharedPreferences 초기화 완료");
+        if (context.mounted) {
+          Showsnackbars.showSnackBar(context, "로그아웃되었습니다.");
+        }
+
+        if (context.mounted) {
+          context.go('/');
+          debugPrint("✔ 로그인 화면으로 이동 완료");
+        } else {
+          debugPrint("⚠ context가 이미 dispose됨");
+        }
+      } catch (e, stackTrace) {
+        debugPrint("❌ 로그아웃 중 오류 발생: $e");
+        debugPrint("🛠 오류 스택 트레이스: $stackTrace");
+        if (context.mounted) {
+          Showsnackbars.showSnackBar(context, "로그아웃에 실패했습니다.");
+        }
+      }
+    }
+
     final List<Map<String, dynamic>> menuItems = [
       {
         'title': '내 북마크',
@@ -19,7 +59,13 @@ class ProfileScreen extends StatelessWidget {
         }
       },
       {'title': '개인정보 수정', 'icon': Icons.person_outline, 'onTap': () {}},
-      {'title': '로그아웃', 'icon': Icons.logout, 'onTap': () {}},
+      {
+        'title': '로그아웃',
+        'icon': Icons.logout,
+        'onTap': () {
+          signOut();
+        }
+      },
       {
         'title': '회원 탈퇴',
         'icon': Icons.warning_amber_outlined,

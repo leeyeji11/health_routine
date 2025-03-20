@@ -174,6 +174,9 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// Directory path: assets/images/camera
+  $AssetsImagesCameraGen get camera => const $AssetsImagesCameraGen();
+
   /// Directory path: assets/images/equipment
   $AssetsImagesEquipmentGen get equipment => const $AssetsImagesEquipmentGen();
 
@@ -182,6 +185,17 @@ class $AssetsImagesGen {
 
   /// Directory path: assets/images/workout
   $AssetsImagesWorkoutGen get workout => const $AssetsImagesWorkoutGen();
+}
+
+class $AssetsImagesCameraGen {
+  const $AssetsImagesCameraGen();
+
+  /// File path: assets/images/camera/camera_area.svg
+  SvgGenImage get cameraArea =>
+      const SvgGenImage('assets/images/camera/camera_area.svg');
+
+  /// List of all assets
+  List<SvgGenImage> get values => [cameraArea];
 }
 
 class $AssetsImagesEquipmentGen {

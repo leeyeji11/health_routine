@@ -33,73 +33,88 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisSize: MainAxisSize.min, // 🔹 Column이 자식 크기만큼만 차지하도록 설정
-        children: [
-          SizedBox(height: 52), // Status bar height 고려
-          SizedBox(
-            height: 300,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: _images.length,
-              clipBehavior: Clip.hardEdge,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.all(16),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      _images[index],
-                      fit: BoxFit.contain,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Future.delayed(Duration(milliseconds: 50), () {
+              if (context.mounted) {
+                context.go('/');
+              }
+            });
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min, // 🔹 Column이 자식 크기만큼만 차지하도록 설정
+          children: [
+            SizedBox(height: 52), // Status bar height 고려
+            SizedBox(
+              height: 300,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _images.length,
+                clipBehavior: Clip.hardEdge,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.all(16),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: Image.asset(
+                        _images[index],
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ),
-                );
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 16),
+            _buildCustomIndicator(), // 직접 만든 인디케이터
+            SizedBox(height: 36),
+            Text(
+              "나만의 운동 계획표를 만들어요",
+              style: AppTextStyle.startText,
+            ),
+            SizedBox(height: 40),
+            TextButton(
+              onPressed: () {
+                context.go('/sign-in');
               },
-            ),
-          ),
-          SizedBox(height: 16),
-          _buildCustomIndicator(), // 직접 만든 인디케이터
-          SizedBox(height: 36),
-          Text(
-            "나만의 운동 계획표를 만들어요",
-            style: AppTextStyle.startText,
-          ),
-          SizedBox(height: 40),
-          TextButton(
-            onPressed: () {
-              context.go('/sign-in');
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.secondColor,
-              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.secondColor,
+                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              child: Text(
+                "로그인",
+                style: AppTextStyle.authTextButton,
               ),
             ),
-            child: Text(
-              "로그인",
-              style: AppTextStyle.authTextButton,
-            ),
-          ),
-          SizedBox(height: 16),
-          TextButton(
-            onPressed: () {
-              context.push('/sign-up');
-            },
-            style: TextButton.styleFrom(
-              backgroundColor: AppColors.secondColor,
-              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(100),
+            SizedBox(height: 16),
+            TextButton(
+              onPressed: () {
+                context.push('/sign-up');
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.secondColor,
+                padding: EdgeInsets.symmetric(horizontal: 100, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(100),
+                ),
+              ),
+              child: Text(
+                "회원가입",
+                style: AppTextStyle.authTextButton,
               ),
             ),
-            child: Text(
-              "회원가입",
-              style: AppTextStyle.authTextButton,
-            ),
-          ),
-          SizedBox(height: 40), // 마지막 여백 추가
-        ],
+            SizedBox(height: 40), // 마지막 여백 추가
+          ],
+        ),
       ),
     );
   }

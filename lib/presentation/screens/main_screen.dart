@@ -85,7 +85,9 @@ class _MainScreenState extends State<MainScreen> {
               ],
             ),
       body: _showEquipmentInfo
-          ? EquipmentInfoScreen()
+          ? EquipmentInfoScreen(
+              imagePath: GoRouterState.of(context).extra as String? ?? '',
+            )
           : widget.child, // 기구 정보 화면 표시 여부
       bottomNavigationBar: _showEquipmentInfo
           ? null // 기구 정보 화면에서는 네비게이션 바 숨김

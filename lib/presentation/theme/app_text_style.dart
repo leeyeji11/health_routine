@@ -148,6 +148,10 @@ class AppTextStyle {
 
   static TextStyle startText = PretendardText.medium.copyWith(fontSize: 20);
 
+  // 📸 카메라 Screen
+  static TextStyle cameraDesc = PretendardText.extraBold
+      .copyWith(fontSize: 15, color: AppColors.white); // 카메라 설명 텍스트
+
   //   static TextStyle smallTitleDark = smallTitle.copyWith(color: Colors.white);
   // static TextStyle smallTitleLight = smallTitle.copyWith(color: Colors.black);
 }
