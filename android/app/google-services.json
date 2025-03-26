@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "295384478581",
+    "project_id": "health-routine-dd4a5",
+    "storage_bucket": "health-routine-dd4a5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295384478581:android:75c14e82cedb3cebbfd93c",
+        "android_client_info": {
+          "package_name": "com.example.health_routine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCb0eZ8miqxxvRp6vOuznodJJ8Z0MvXGI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
